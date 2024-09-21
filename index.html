@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+
+
+  <title>CS180 Proj1</title>
+  <link rel="icon" type="image/jpg" href="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_40_.jpg">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Colorizing the Prokudin-Gorskii Photo Collection</h1>
+ 
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">Henley Zhang<br>August 31, 2024</span>
+                  </div>
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Introduction</h2>
+        <div class="content has-text-justified">
+          <img src="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_40_.jpg" alt="emir" class="abstract-image">
+          <p>
+            The Prokudin-Gorskii photo collection is a series of color photos taken by Russian photographer Sergei Mikhailovich Prokudin-Gorskii. 
+            The images were special in that they were taken in a series of three images, each with a different color channel. However, the three images were not aligned,
+             so this project aims to algorithmically align the images and colorize them. For very large images, the alignment process is done with an image pyramid for efficiency.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!-- Paper abstract -->
+<section class="section hero is-small">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Part 1: Naive Image Alignment</h2>
+        <h3 class="title is-4">Approach</h3>
+
+        <div class="content has-text-justified">
+          <p>
+            First, the image was split divied into the three smaller images containing the individual color channels.
+            The images were then aligned by finding the best alignemnt in the x and y directions. The red and blue, and the red and green images were aligned separately.
+            We iterate over a range of dx and dy values to find the best alignment. The best alignment was found by creating a similarity score calculated by the euclidean distance between the two images.
+            The images were cropped before the comparison to remove borders which might interfere with results. The best alignment was calculated by finding the dx and dy values that minimized the similarity score.
+            Finally, the images were aligned using the dx and dy values found, and layered on top of each other to create the final color image.
+          </p>
+
+          <h3 class="title is-4">Results</h3>
+          <img src="static/images/out_cathedral_green_dx_5_dy_2_red_dx_12_dy_3_.jpg" alt="catheral" class="abstract-image">
+          <h4 class="title is-5">Figure 1: Cathedral R:(5,2) G:(12,3)</h4>
+          <img src="static/images/out_monastery_green_dx_-3_dy_2_red_dx_3_dy_2_.jpg" alt="monastery" class="abstract-image">
+          <h4 class="title is-5">Figure 2: Monastery R:(-3,2) G:(3,2)</h4>
+          <img src="static/images/out_tobolsk_green_dx_3_dy_2_red_dx_6_dy_3_.jpg" alt="tobolsk" class="abstract-image">
+          <h4 class="title is-5">Figure 3: Tobolsk R:(3,2) G:(6,3)</h4>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Part 2: Image Pyramid Alignment</h2>
+        <h3 class="title is-4">Approach</h3>
+
+        <div class="content has-text-justified">
+          <p>
+            This Approach differs from the naive approch in that it uses an image pyramid. 
+            The naive approach would be very inefficient for large images since a very large delta would be required. 
+            In the image pyramid, the image is rescaled to a  smaller size. Then, the downsized images are aligned using the naive way. 
+            The dx and dy values are then scaled up to the original image size and added to a total dx and dy value.
+            Then, just like in the naive approach, the images are aligned using the dx and dy values found, and layered on top of each other to create the final color image.
+          </p>
+
+          <h3 class="title is-4">Results</h3>
+          <img src="static/images/out_church_green_dx_24_dy_4_red_dx_58_dy_-4_.jpg" alt="church" class="abstract-image">
+          <h4 class="title is-5">Figure 4: Church R:(24,4) G:(58,-4)</h4>
+          <img src="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_40_.jpg" alt="emir" class="abstract-image">
+          <h4 class="title is-5">Figure 5: Emir R:(50,24) G:(106,40)</h4>
+          <img src="static/images/out_harvesters_green_dx_60_dy_18_red_dx_124_dy_14_.jpg" alt="harvesters" class="abstract-image">
+          <h4 class="title is-5">Figure 6: Harvesters R:(60,18) G:(124,14)</h4>
+          <img src="static/images/out_icon_green_dx_42_dy_16_red_dx_90_dy_22_.jpg" alt="icon" class="abstract-image">
+          <h4 class="title is-5">Figure 7: Icon R:(42,16) G:(90,22)</h4>
+          <img src="static/images/out_lady_green_dx_56_dy_8_red_dx_120_dy_12_.jpg" alt="lady" class="abstract-image">
+          <h4 class="title is-5">Figure 8: Lady R:(56,8) G:(120,12)</h4>
+          <img src="static/images/out_melons_green_dx_86_dy_8_red_dx_182_dy_12_.jpg" alt="melon" class="abstract-image">
+          <h4 class="title is-5">Figure 9: Melons R:(86,8) G:(182,12)</h4>
+          <img src="static/images/out_onion_church_green_dx_52_dy_26_red_dx_108_dy_36_.jpg" alt="onion" class="abstract-image">
+          <h4 class="title is-5">Figure 10: Onion Church R:(52,26) G:(108,36)</h4>
+          <img src="static/images/out_self_portrait_green_dx_78_dy_28_red_dx_176_dy_36_.jpg" alt="self" class="abstract-image">
+          <h4 class="title is-5">Figure 11: Self Portrait R:(78,28) G:(176,36)</h4>
+          <img src="static/images/out_three_generations_green_dx_54_dy_12_red_dx_112_dy_10_.jpg" alt="three" class="abstract-image">
+          <h4 class="title is-5">Figure 12: Three Generations R:(54,12) G:(112,10)</h4>
+          <img src="static/images/out_train_green_dx_42_dy_2_red_dx_86_dy_32_.jpg" alt="train" class="abstract-image">
+          <h4 class="title is-5">Figure 13: Train R:(42,2) G:(86,32)</h4>
+
+          <h3 class="title is-4">Custom images</h3>
+          <img src="static/images/out_seeds_green_dx_42_dy_-38_red_dx_108_dy_-82_.jpg" alt="custom" class="abstract-image">
+          <h4 class="title is-5">Figure 14: Seeds R:(42,-38) G:(108,-82)</h4>
+          <img src="static/images/out_church2_green_dx_48_dy_-8_red_dx_110_dy_-16_.jpg" alt="custom" class="abstract-image">
+          <h4 class="title is-5">Figure 15: Church2 R:(48,-8) G:(110,-16)</h4>
+
+   
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+
+
+
+
+
+
+
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
