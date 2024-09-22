@@ -38,11 +38,11 @@
       <div class="container is-max-desktop">
         <div class="columns is-centered">
           <div class="column has-text-centered">
-            <h1 class="title is-1 publication-title">Colorizing the Prokudin-Gorskii Photo Collection</h1>
+            <h1 class="title is-1 publication-title">Fun with Filters and Frequencies!</h1>
  
 
                   <div class="is-size-5 publication-authors">
-                    <span class="author-block">Henley Zhang<br>August 31, 2024</span>
+                    <span class="author-block">Henley Zhang<br>September 21, 2024</span>
                   </div>
 
 
@@ -64,10 +64,15 @@
         <div class="content has-text-justified">
           <img src="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_40_.jpg" alt="emir" class="abstract-image">
           <p>
-            The Prokudin-Gorskii photo collection is a series of color photos taken by Russian photographer Sergei Mikhailovich Prokudin-Gorskii. 
-            The images were special in that they were taken in a series of three images, each with a different color channel. However, the three images were not aligned,
-             so this project aims to algorithmically align the images and colorize them. For very large images, the alignment process is done with an image pyramid for efficiency.
-          </p>
+           In this project, we explore different applications of using frequencies to process
+            images in interesting ways. First, we process the images in different ways
+             for edge detection, using finite difference or Derivative of Gaussian 
+             Filters. We then explore the separation of an image into high and low 
+             frequencies to create sharpen filters, combine images into hybrid images,
+              and develop combine images through gaussian and laplacian pyramids. 
+
+    
+            </p>
         </div>
       </div>
     </div>
@@ -80,25 +85,81 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Part 1: Naive Image Alignment</h2>
-        <h3 class="title is-4">Approach</h3>
+        <h2 class="title is-3">Part 1: Fun with Filters</h2>
+        
+        <h3 class="title is-4">1.1 Finite Difference Operator</h3>
 
         <div class="content has-text-justified">
+          <h4 class="title is-5">Approach</h4>
           <p>
-            First, the image was split divied into the three smaller images containing the individual color channels.
-            The images were then aligned by finding the best alignemnt in the x and y directions. The red and blue, and the red and green images were aligned separately.
-            We iterate over a range of dx and dy values to find the best alignment. The best alignment was found by creating a similarity score calculated by the euclidean distance between the two images.
-            The images were cropped before the comparison to remove borders which might interfere with results. The best alignment was calculated by finding the dx and dy values that minimized the similarity score.
-            Finally, the images were aligned using the dx and dy values found, and layered on top of each other to create the final color image.
+            We take the partial derivative of the image by convolving the image with the finite difference, dx = [1, -1] and dy = [[1], [-1]] vertically. 
+            To develop edges, we binarize the image by thresholding a value and setting to black or white accordingly
+            We use these derivatives to create a gradient magnitude image which shows the edges, using np.sqrt(dx ** 2 + dy ** 2). 
           </p>
+          <img src="static/images/dx.png" alt="dx" class="abstract-image" style="width: 40%;">
+          <p>dx filter</p>
+          <img src="static/images/dxb.png" alt="dxb" class="abstract-image" style="width: 40%;">
+          <p>dx filter (binarized)</p>
 
-          <h3 class="title is-4">Results</h3>
-          <img src="static/images/out_cathedral_green_dx_5_dy_2_red_dx_12_dy_3_.jpg" alt="catheral" class="abstract-image">
-          <h4 class="title is-5">Figure 1: Cathedral R:(5,2) G:(12,3)</h4>
-          <img src="static/images/out_monastery_green_dx_-3_dy_2_red_dx_3_dy_2_.jpg" alt="monastery" class="abstract-image">
-          <h4 class="title is-5">Figure 2: Monastery R:(-3,2) G:(3,2)</h4>
-          <img src="static/images/out_tobolsk_green_dx_3_dy_2_red_dx_6_dy_3_.jpg" alt="tobolsk" class="abstract-image">
-          <h4 class="title is-5">Figure 3: Tobolsk R:(3,2) G:(6,3)</h4>
+          <img src="static/images/dy.png" alt="dy" class="abstract-image" style="width: 40%;">
+          <p>dy filter</p>
+          <img src="static/images/dyb.png" alt="dyb" class="abstract-image" style="width: 40%;">
+          <p>dy filter (binarized)</p>
+
+          <img src="static/images/grad.png" alt="gradient" class="abstract-image" style="width: 40%;">
+          <p>gradient magnitude image</p>
+
+          <img src="static/images/gradb.png" alt="gradientb" class="abstract-image" style="width: 40%;">
+          <p>gradient magnitude image (binarized)</p>
+
+          <p>We found that the optimal threshold for the binarization was 50 </p>
+
+          <h3 class="title is-4">1.2 Derivative of Gaussian Filter</h3>
+
+          <h4 class="title is-5" >Blurred Approach</h4>
+          <p>We first repeat 1.1 on the image that has been convolved with a Gaussian kernel to blur it. We found a good kernel parameter was k = 10, sigma = 2  </p>
+
+          <img src="static/images/bdx.png" alt="bdx" class="abstract-image" style="width: 40%;">
+          <p>Blurred dx filter</p>
+
+          <img src="static/images/bdxb.png" alt="bdxb" class="abstract-image" style="width: 40%;">
+          <p>Blurred dx filter (binarized)</p>
+
+          <img src="static/images/bdy.png" alt="bdy" class="abstract-image" style="width: 40%;">
+
+          <p>Blurred dy filter</p>
+
+          <img src="static/images/bdyb.png" alt="bdyb" class="abstract-image" style="width: 40%;">
+          <p>Blurred dy filter (binarized)</p>
+
+          <img src="static/images/bgrad.png" alt="bgradient" class="abstract-image" style="width: 40%;">
+          <p>Blurred gradient magnitude image</p>
+          
+          <img src="static/images/bgrab.png" alt="bgradientb" class="abstract-image" style="width: 40%;">
+          <p>Blurred gradient magnitude image (binarized)</p>
+
+          <h5 class="title is-6"> I notice that in these images much of the noise has been removed, which results in cleaner edges. The edges themselves are also thicker</h5>
+
+          <h4 class="title is-5">Derivative of Gaussian Filter Approach</h4>
+          <p>We first convolve the gaussian kernel with  dx = [1, -1] and dy = [[1], [-1]] respectively to create two DoG filters. We then convolve the original image with these filter to create the dx and dy blurred. Again, the gradient is calculated</p>
+
+          <img src="static/images/gdx.png" alt="dogdx" class="abstract-image" style="width: 40%;">
+          <p>DoG dx filter</p>
+          <img src="static/images/gdxb.png" alt="dogdxb" class="abstract-image" style="width: 40%;">
+          <p>DoG dx filter (binarized)</p>
+
+          <img src="static/images/gdy.png" alt="dogdy" class="abstract-image" style="width: 40%;">
+          <p>DoG dy filter</p>
+          <img src="static/images/gdyb.png" alt="dogdyb" class="abstract-image" style="width: 40%;">
+          <p>DoG dy filter (binarized)</p>
+
+          <img src="static/images/ggrad.png" alt="doggradient" class="abstract-image" style="width: 40%;">
+          <p>DoG gradient magnitude image</p>
+
+          <img src="static/images/ggradb.png" alt="doggradientb" class="abstract-image" style="width: 40%;">
+          <p>DoG gradient magnitude image (binarized)</p>
+
+          <h5 class="title is-6">The images are virtually identical.</h5>
 
         </div>
       </div>
@@ -112,47 +173,136 @@
   <div class="container is-max-desktop">
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Part 2: Image Pyramid Alignment</h2>
-        <h3 class="title is-4">Approach</h3>
+        <h2 class="title is-3">Part 2: Fun with Frequencies</h2>
+        <h3 class="title is-4">2.1 Image Sharpening Approach</h3>
 
         <div class="content has-text-justified">
           <p>
-            This Approach differs from the naive approch in that it uses an image pyramid. 
-            The naive approach would be very inefficient for large images since a very large delta would be required. 
-            In the image pyramid, the image is rescaled to a  smaller size. Then, the downsized images are aligned using the naive way. 
-            The dx and dy values are then scaled up to the original image size and added to a total dx and dy value.
-            Then, just like in the naive approach, the images are aligned using the dx and dy values found, and layered on top of each other to create the final color image.
+            The image is convolved with the gaussian kernel to blur it, which removes the high frequencies. We then subtract the blurred image from the original to have just the high frequencies. We then add this back to the original image to sharpen it, multiplied by an alpha to boost sharpness. 
           </p>
 
-          <h3 class="title is-4">Results</h3>
-          <img src="static/images/out_church_green_dx_24_dy_4_red_dx_58_dy_-4_.jpg" alt="church" class="abstract-image">
-          <h4 class="title is-5">Figure 4: Church R:(24,4) G:(58,-4)</h4>
-          <img src="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_40_.jpg" alt="emir" class="abstract-image">
-          <h4 class="title is-5">Figure 5: Emir R:(50,24) G:(106,40)</h4>
-          <img src="static/images/out_harvesters_green_dx_60_dy_18_red_dx_124_dy_14_.jpg" alt="harvesters" class="abstract-image">
-          <h4 class="title is-5">Figure 6: Harvesters R:(60,18) G:(124,14)</h4>
-          <img src="static/images/out_icon_green_dx_42_dy_16_red_dx_90_dy_22_.jpg" alt="icon" class="abstract-image">
-          <h4 class="title is-5">Figure 7: Icon R:(42,16) G:(90,22)</h4>
-          <img src="static/images/out_lady_green_dx_56_dy_8_red_dx_120_dy_12_.jpg" alt="lady" class="abstract-image">
-          <h4 class="title is-5">Figure 8: Lady R:(56,8) G:(120,12)</h4>
-          <img src="static/images/out_melons_green_dx_86_dy_8_red_dx_182_dy_12_.jpg" alt="melon" class="abstract-image">
-          <h4 class="title is-5">Figure 9: Melons R:(86,8) G:(182,12)</h4>
-          <img src="static/images/out_onion_church_green_dx_52_dy_26_red_dx_108_dy_36_.jpg" alt="onion" class="abstract-image">
-          <h4 class="title is-5">Figure 10: Onion Church R:(52,26) G:(108,36)</h4>
-          <img src="static/images/out_self_portrait_green_dx_78_dy_28_red_dx_176_dy_36_.jpg" alt="self" class="abstract-image">
-          <h4 class="title is-5">Figure 11: Self Portrait R:(78,28) G:(176,36)</h4>
-          <img src="static/images/out_three_generations_green_dx_54_dy_12_red_dx_112_dy_10_.jpg" alt="three" class="abstract-image">
-          <h4 class="title is-5">Figure 12: Three Generations R:(54,12) G:(112,10)</h4>
-          <img src="static/images/out_train_green_dx_42_dy_2_red_dx_86_dy_32_.jpg" alt="train" class="abstract-image">
-          <h4 class="title is-5">Figure 13: Train R:(42,2) G:(86,32)</h4>
+          <img src="static/images/taj.png" alt="taj" class="abstract-image" style="width: 40%;">
+          <p>Original Image</p>
 
-          <h3 class="title is-4">Custom images</h3>
-          <img src="static/images/out_seeds_green_dx_42_dy_-38_red_dx_108_dy_-82_.jpg" alt="custom" class="abstract-image">
-          <h4 class="title is-5">Figure 14: Seeds R:(42,-38) G:(108,-82)</h4>
-          <img src="static/images/out_church2_green_dx_48_dy_-8_red_dx_110_dy_-16_.jpg" alt="custom" class="abstract-image">
-          <h4 class="title is-5">Figure 15: Church2 R:(48,-8) G:(110,-16)</h4>
+          <img src="static/images/tajdet.png" alt="tajg" class="abstract-image" style="width: 40%;">
+          <p>Image Details (high frequencies)</p>
 
-   
+          <img src="static/images/tajsharp.png" alt="tajs" class="abstract-image" style="width: 40%;">
+          <p>Sharpened Image</p>
+
+          <img src="static/images/oski.png" alt="tajs2" class="abstract-image" style="width: 40%;">
+          <p>Original Image</p>
+
+          <img src="static/images/odetails.png" alt="tajg2" class="abstract-image" style="width: 40%;">
+
+          <p>Image Details (high frequencies)</p>
+
+          <img src="static/images/ofried.png" alt="tajs2" class="abstract-image" style="width: 40%;">
+
+          <p>Sharpened Image</p>
+
+         <h3>Blurred, then resharpened. </h3>
+         <p> Here we blurred the image, only to sharpen it again to compare </p>
+
+         <img src="static/images/wori.png" alt="oblur" class="abstract-image" style="width: 40%;">
+          <p>Original Image</p>
+
+          <img src="static/images/wblurred.png" alt="oblur" class="abstract-image" style="width: 40%;">
+          <p>Blurred Image</p>
+
+          <img src="static/images/wdetails.png" alt="oblur" class="abstract-image" style="width: 40%;">
+          <p>Image Details (high frequencies)</p>
+
+          <img src="static/images/wresharp.png" alt="oblur" class="abstract-image" style="width: 40%;">
+
+          <p>Resharpened Image</p>
+
+          <h3 class="title is-4">2.2 Hybrid Images Approach</h3>
+            <p>We create hybrid images. We first apply Gaussian blur to one image to get the low frequencies. We then get the high frequencies of the other image by subtracting the original from the blurred. We then add the low frequencies from image one to the high frequencies of image two, to create the hybrid image.</p>
+
+            <img src="static/images/hybridoski.png" alt="low" class="abstract-image" style="width: 1000%;">
+
+
+            <p>Hybrid Image Result</p>
+
+            
+            <img src="static/images/oskires.png" alt="low" class="abstract-image" style="width: 1000%;">
+
+          <h4 class="title is-3">FFT frequency analysis</h3>
+
+            <img src="static/images/lap.png" alt="fft" class="abstract-image" style="width: 1000%;">
+            <p>FFT of the image</p>
+
+            <img src="static/images/oskifftres.png" alt="fft2" class="abstract-image" style="width: 1000%;">
+            <p>FFT of the result image</p>
+
+            <img src="static/images/animalespres.png" alt="fft3" class="abstract-image" style="width: 1000%;">
+            <img src="static/images/animalesres.png" alt="fft4" class="abstract-image" style="width: 1000%;">
+
+            <img src="static/images/drakepre.png" alt="fft5" class="abstract-image" style="width: 1000%;">
+            <img src="static/images/drakeres.png" alt="fft6" class="abstract-image" style="width: 1000%;">
+
+            <h3>This drake one was a bit of a failure. I could not get the images to align in a way where it was difficult to see the low frequency
+               image even when close up. It was also too easy to see the high frequency image when view from far away. </h3>
+
+            <h2 class="title is-3">2.3 Gaussian and Laplacian Stacks</h2>
+            <p>A gaussian stack was constructed by repeatedly convolving the image with a gaussian kernel, blurring the image without downsampling. 
+              The laplacian stack was constructed by taking the difference between the i and i + 1 for i in the gaussian stack, capturing the loss in detail in each level of the gaussian stack.
+            
+    </p>
+            <img src="static/images/agaus.png" alt="gauss" class="abstract-image" style="width: 1000%;">
+            <p>Gaussian Stack</p>
+            <img src="static/images/applelaplacian.png" alt="lap" class="abstract-image" style="width: 1000%;">
+            <p>Laplacian Stack</p>
+            <img src="static/images/ogaus.png" alt="lap" class="abstract-image" style="width: 1000%;">
+            <p>Gaussian Stack</p>
+            <img src="static/images/orangelaplacian.png" alt="lap" class="abstract-image" style="width: 1000%;">
+            <p>Laplacian Stack</p>
+            <p>For these preview images, the images were normalized so that it can bee seen with the eye.</p>
+
+            <h2 class="title is-3">2.4 MultiResolution Blending</h2>
+            <p>Image 1 and Image 2 are used to generate laplacian stacks. Then, a gaussian stack is created from the mask image. TO create the blended image, this formula was used
+              
+            (1 - mask_gaussian _stack[i]) * laplacian_stack1[i] + mask_gaussian_stack[i] * laplacian_stack2[i]
+
+             = blended_stack[i]
+
+             Then the blended image is reconstructed by summing the blended stack.
+ </p>
+             <img src="static/images/blend.png" alt="blend" class="abstract-image" style="width: 1000%;"> 
+              <p>Pre Blended Image</p>
+
+              <img src="static/images/blendedsum.png" alt="blend" class="abstract-image" style="width: 1000%;">
+
+              <img src="static/images/Screenshot 2024-09-21 173435.png" alt="blend" class="abstract-image" style="width: 1000%;">
+
+              <h5 class="title is-6">Here I tried to get the best result possible, with 100 layers, kernel of 5, 500, which took 10 min. The seam is barely reduced</h3>
+
+              <img src="static/images/oraple 100 layers.png" alt="blend" class="abstract-image" style="width: 1000%;">
+
+
+              <img src="static/images/bb.jpeg" alt="blend" class="abstract-image" style="width: 1000%;">
+              <p>Pre Blended Image 1</p>
+
+              <img src="static/images/cv.jpg" alt="blend" class="abstract-image" style="width: 1000%;">
+              <p>Pre Blended Image 2</p>
+
+              <img src="static/images/blended_ship.png" alt="blend" class="abstract-image" style="width: 1000%;">
+              <p>Blended Image</p>
+
+              <img src="static/images/sky.jpeg" alt="blend" class="abstract-image" style="width: 1000%;">
+              <p>Pre Blended Image 1</p>
+
+              <img src="static/images/campanille.jpg" alt="blend" class="abstract-image" style="width: 1000%;">
+              <p>Pre Blended Image 2</p>
+
+              <img src="static/images/cmask.jpg" alt="blend" class="abstract-image" style="width: 1000%;">
+              <p>Mask Image</p>
+
+              <img src="static/images/blended_campanille_sky.jpg" alt="blend" class="abstract-image" style="width: 1000%;">
+              <p>Blended Image</p>
+           
+      
         </div>
       </div>
     </div>
