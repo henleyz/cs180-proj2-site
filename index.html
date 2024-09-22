@@ -11,7 +11,7 @@
 
 
   <title>CS180 Proj1</title>
-  <link rel="icon" type="image/jpg" href="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_40_.jpg">
+  <link rel="icon" type="image/jpg" href="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_100_.jpg">
   <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
   rel="stylesheet">
 
@@ -62,7 +62,7 @@
       <div class="column is-four-fifths">
         <h2 class="title is-3">Introduction</h2>
         <div class="content has-text-justified">
-          <img src="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_40_.jpg" alt="emir" class="abstract-image">
+          <img src="static/images/out_emir_green_dx_50_dy_24_red_dx_106_dy_100_.jpg" alt="emir" class="abstract-image">
           <p>
            In this project, we explore different applications of using frequencies to process
             images in interesting ways. First, we process the images in different ways
@@ -96,20 +96,20 @@
             To develop edges, we binarize the image by thresholding a value and setting to black or white accordingly
             We use these derivatives to create a gradient magnitude image which shows the edges, using np.sqrt(dx ** 2 + dy ** 2). 
           </p>
-          <img src="static/images/dx.png" alt="dx" class="abstract-image" style="width: 40%;">
+          <img src="static/images/dx.png" alt="dx" class="abstract-image" style="width: 100%;">
           <p>dx filter</p>
-          <img src="static/images/dxb.png" alt="dxb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/dxb.png" alt="dxb" class="abstract-image" style="width: 100%;">
           <p>dx filter (binarized)</p>
 
-          <img src="static/images/dy.png" alt="dy" class="abstract-image" style="width: 40%;">
+          <img src="static/images/dy.png" alt="dy" class="abstract-image" style="width: 100%;">
           <p>dy filter</p>
-          <img src="static/images/dyb.png" alt="dyb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/dyb.png" alt="dyb" class="abstract-image" style="width: 100%;">
           <p>dy filter (binarized)</p>
 
-          <img src="static/images/grad.png" alt="gradient" class="abstract-image" style="width: 40%;">
+          <img src="static/images/grad.png" alt="gradient" class="abstract-image" style="width: 100%;">
           <p>gradient magnitude image</p>
 
-          <img src="static/images/gradb.png" alt="gradientb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/gradb.png" alt="gradientb" class="abstract-image" style="width: 100%;">
           <p>gradient magnitude image (binarized)</p>
 
           <p>We found that the optimal threshold for the binarization was 50 </p>
@@ -119,23 +119,23 @@
           <h4 class="title is-5" >Blurred Approach</h4>
           <p>We first repeat 1.1 on the image that has been convolved with a Gaussian kernel to blur it. We found a good kernel parameter was k = 10, sigma = 2  </p>
 
-          <img src="static/images/bdx.png" alt="bdx" class="abstract-image" style="width: 40%;">
+          <img src="static/images/bdx.png" alt="bdx" class="abstract-image" style="width: 100%;">
           <p>Blurred dx filter</p>
 
-          <img src="static/images/bdxb.png" alt="bdxb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/bdxb.png" alt="bdxb" class="abstract-image" style="width: 100%;">
           <p>Blurred dx filter (binarized)</p>
 
-          <img src="static/images/bdy.png" alt="bdy" class="abstract-image" style="width: 40%;">
+          <img src="static/images/bdy.png" alt="bdy" class="abstract-image" style="width: 100%;">
 
           <p>Blurred dy filter</p>
 
-          <img src="static/images/bdyb.png" alt="bdyb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/bdyb.png" alt="bdyb" class="abstract-image" style="width: 100%;">
           <p>Blurred dy filter (binarized)</p>
 
-          <img src="static/images/bgrad.png" alt="bgradient" class="abstract-image" style="width: 40%;">
+          <img src="static/images/bgrad.png" alt="bgradient" class="abstract-image" style="width: 100%;">
           <p>Blurred gradient magnitude image</p>
           
-          <img src="static/images/bgrab.png" alt="bgradientb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/bgrab.png" alt="bgradientb" class="abstract-image" style="width: 100%;">
           <p>Blurred gradient magnitude image (binarized)</p>
 
           <h5 class="title is-6"> I notice that in these images much of the noise has been removed, which results in cleaner edges. The edges themselves are also thicker</h5>
@@ -143,20 +143,20 @@
           <h4 class="title is-5">Derivative of Gaussian Filter Approach</h4>
           <p>We first convolve the gaussian kernel with  dx = [1, -1] and dy = [[1], [-1]] respectively to create two DoG filters. We then convolve the original image with these filter to create the dx and dy blurred. Again, the gradient is calculated</p>
 
-          <img src="static/images/gdx.png" alt="dogdx" class="abstract-image" style="width: 40%;">
+          <img src="static/images/gdx.png" alt="dogdx" class="abstract-image" style="width: 100%;">
           <p>DoG dx filter</p>
-          <img src="static/images/gdxb.png" alt="dogdxb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/gdxb.png" alt="dogdxb" class="abstract-image" style="width: 100%;">
           <p>DoG dx filter (binarized)</p>
 
-          <img src="static/images/gdy.png" alt="dogdy" class="abstract-image" style="width: 40%;">
+          <img src="static/images/gdy.png" alt="dogdy" class="abstract-image" style="width: 100%;">
           <p>DoG dy filter</p>
-          <img src="static/images/gdyb.png" alt="dogdyb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/gdyb.png" alt="dogdyb" class="abstract-image" style="width: 100%;">
           <p>DoG dy filter (binarized)</p>
 
-          <img src="static/images/ggrad.png" alt="doggradient" class="abstract-image" style="width: 40%;">
+          <img src="static/images/ggrad.png" alt="doggradient" class="abstract-image" style="width: 100%;">
           <p>DoG gradient magnitude image</p>
 
-          <img src="static/images/ggradb.png" alt="doggradientb" class="abstract-image" style="width: 40%;">
+          <img src="static/images/ggradb.png" alt="doggradientb" class="abstract-image" style="width: 100%;">
           <p>DoG gradient magnitude image (binarized)</p>
 
           <h5 class="title is-6">The images are virtually identical.</h5>
@@ -181,39 +181,39 @@
             The image is convolved with the gaussian kernel to blur it, which removes the high frequencies. We then subtract the blurred image from the original to have just the high frequencies. We then add this back to the original image to sharpen it, multiplied by an alpha to boost sharpness. 
           </p>
 
-          <img src="static/images/taj.png" alt="taj" class="abstract-image" style="width: 40%;">
+          <img src="static/images/taj.png" alt="taj" class="abstract-image" style="width: 100%;">
           <p>Original Image</p>
 
-          <img src="static/images/tajdet.png" alt="tajg" class="abstract-image" style="width: 40%;">
+          <img src="static/images/tajdet.png" alt="tajg" class="abstract-image" style="width: 100%;">
           <p>Image Details (high frequencies)</p>
 
-          <img src="static/images/tajsharp.png" alt="tajs" class="abstract-image" style="width: 40%;">
+          <img src="static/images/tajsharp.png" alt="tajs" class="abstract-image" style="width: 100%;">
           <p>Sharpened Image</p>
 
-          <img src="static/images/oski.png" alt="tajs2" class="abstract-image" style="width: 40%;">
+          <img src="static/images/oski.png" alt="tajs2" class="abstract-image" style="width: 100%;">
           <p>Original Image</p>
 
-          <img src="static/images/odetails.png" alt="tajg2" class="abstract-image" style="width: 40%;">
+          <img src="static/images/odetails.png" alt="tajg2" class="abstract-image" style="width: 100%;">
 
           <p>Image Details (high frequencies)</p>
 
-          <img src="static/images/ofried.png" alt="tajs2" class="abstract-image" style="width: 40%;">
+          <img src="static/images/ofried.png" alt="tajs2" class="abstract-image" style="width: 100%;">
 
           <p>Sharpened Image</p>
 
          <h3>Blurred, then resharpened. </h3>
          <p> Here we blurred the image, only to sharpen it again to compare </p>
 
-         <img src="static/images/wori.png" alt="oblur" class="abstract-image" style="width: 40%;">
+         <img src="static/images/wori.png" alt="oblur" class="abstract-image" style="width: 100%;">
           <p>Original Image</p>
 
-          <img src="static/images/wblurred.png" alt="oblur" class="abstract-image" style="width: 40%;">
+          <img src="static/images/wblurred.png" alt="oblur" class="abstract-image" style="width: 100%;">
           <p>Blurred Image</p>
 
-          <img src="static/images/wdetails.png" alt="oblur" class="abstract-image" style="width: 40%;">
+          <img src="static/images/wdetails.png" alt="oblur" class="abstract-image" style="width: 100%;">
           <p>Image Details (high frequencies)</p>
 
-          <img src="static/images/wresharp.png" alt="oblur" class="abstract-image" style="width: 40%;">
+          <img src="static/images/wresharp.png" alt="oblur" class="abstract-image" style="width: 100%;">
 
           <p>Resharpened Image</p>
 
